@@ -8,7 +8,7 @@ var map = new mapboxgl.Map({
   // initial position in [lon, lat] format
   center: [-77.034084, 38.909671],
   // initial zoom
-  zoom: 14
+  zoom: 3
 });
 
 const eventsOutput0 = data.resultsPage.results.event.map(event => {
@@ -16,7 +16,7 @@ const eventsOutput0 = data.resultsPage.results.event.map(event => {
     type: "Feature",
     geometry: {
       type: "Point",
-      coordinates: [event.location.lat, event.location.lng],
+      coordinates: [event.location.lng, event.location.lat],
     },
     properties: {
       // headliner: event.performance.billing,
@@ -30,6 +30,10 @@ const eventsOutput0 = data.resultsPage.results.event.map(event => {
   return output
 })
 
+const keyFeatures = {
+  "type": "FeatureCollection",
+  "features": eventsOutput0
+}
 
 console.log(eventsOutput0)
 
@@ -47,8 +51,8 @@ function createPopUp(currentFeature) {
 
   var popup = new mapboxgl.Popup({ closeOnClick: false })
     .setLngLat(currentFeature.geometry.coordinates)
-    .setHTML('<h3>Sweetgreen</h3>' +
-      '<h4>' + currentFeature.properties.address + '</h4>')
+    .setHTML('<h3>' + currentFeature.properties.title + '</h3>' +
+      '<h4>' + currentFeature.properties.date + '</h4>')
     .addTo(map);
 }
 
@@ -72,7 +76,7 @@ function buildLocationList(data) {
     link.href = '#';
     link.className = 'title';
     link.dataPosition = i;
-    link.innerHTML = prop.address;
+    link.innerHTML = prop.title;
     // Add an event listener for the links in the sidebar listing
   link.addEventListener('click', function(e) {
     // Update the currentFeature to the store associated with the clicked link
@@ -103,20 +107,28 @@ map.on('load', function (e) {
   // This is where your '.addLayer()' used to be, instead add only the source without styling a layer
   map.addSource("places", {
     "type": "geojson",
-    "data": stores
+    "data": keyFeatures
   });
   // Initialize the list
-  buildLocationList(stores);
+  buildLocationList(keyFeatures);
 });
 
 // This is where your interactions with the symbol layer used to be
 // Now you have interactions with DOM markers instead
-stores.features.forEach(function(marker, i) {
+
+
+
+
+
+eventsOutput0.forEach(function(marker, i) {
   // Create an img element for the marker
   var el = document.createElement('div');
   el.id = "marker-" + i;
   el.className = 'marker';
   // Add markers to the map at all points
+
+// TESTING: console.log(marker.geometry.coordinates)
+
   new mapboxgl.Marker(el, {offset: [0, -23]})
     .setLngLat(marker.geometry.coordinates)
     .addTo(map);

@@ -64,7 +64,9 @@ a:hover {
   cursor: pointer;
   height: 56px;
   width: 56px;
-  background-image: url(marker.png);
+  background-size: contain;
+  border-radius: 50%;
+  background-image: url(MRodgers.png);
   background-color: rgba(0, 0, 0, 0);
 }
 
