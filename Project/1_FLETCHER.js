@@ -1,4 +1,4 @@
-{
+const fletcherUpcoming = {
     "resultsPage":
     {
         "status": "ok",

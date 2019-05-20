@@ -1,4 +1,4 @@
-{
+const abirUpcoming = {
     "resultsPage":
     {
         "status": "ok",

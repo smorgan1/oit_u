@@ -1,4 +1,4 @@
-{
+const rynWeaverUpcoming = {
     "resultsPage":
     {
         "status": "ok",
