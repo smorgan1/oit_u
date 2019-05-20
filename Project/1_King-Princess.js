@@ -1,4 +1,4 @@
-{
+const kingPrincessUpcoming = {
     "resultsPage":
     {
         "status": "ok",
