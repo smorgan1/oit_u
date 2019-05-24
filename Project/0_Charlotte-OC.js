@@ -1,4 +1,4 @@
-const pastCharlotteOC = 
+const CharlotteOC_Past = 
     {
         "resultsPage":
         {

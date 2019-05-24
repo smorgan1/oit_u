@@ -1,4 +1,4 @@
-const charlotteOCUpcoming = {
+const CharlotteOC_Upcoming = {
     "resultsPage":
     {
         "status": "ok",
