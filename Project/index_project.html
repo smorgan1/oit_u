@@ -1,22 +1,127 @@
 <html>
    <head>
-      <title>Mapbox Tutorial</title>
+      <title>Concert Map</title>
       <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
       <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
       <link href="index_project.css" rel="stylesheet"></link>
       <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
    </head>
+   <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .navbar a {
+      float: left;
+      font-size: 8px;
+      color: white;
+      text-align: center;
+      padding: 7px 8px;
+      text-decoration: none;
+    }
+
+    .dropdown {
+      float: left;
+      overflow: hidden;
+    }
+
+    .dropdown .dropbtn {
+      font-size: 8px;
+      border: none;
+      outline: none;
+      color: white;
+      padding: 7px 8px;
+      background-color: inherit;
+      font-family: inherit;
+      margin:0;
+    }
+
+    .navbar a:hover, .dropdown:hover .dropbtn {
+      background-color: red;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      float: none;
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  </style>
 
    <body>
       <div class='sidebar'>
-        <div>
-          <button id="search-past">
-             Search past
-          </button>
-          <button id="search-upcoming">
-             Search upcoming
-          </button>
+        <div class ="navbar">
+          <div class="dropdown">
+            <button class="dropbtn">Past
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <button id="past_0" style="width:60px;height:40px;">Abir
+              </button>
+              <button id="past_1" style="width:100px;height:40px;">Charlotte OC
+              </button>
+              <button id="past_2" style="width:100px;height:40px;">FLETCHER
+              </button>
+              <button id="past_3" style="width:60px;height:40px;">King Princess
+              </button>
+              <button id="past_4" style="width:60px;height:40px;">Maggie Rogers
+              </button>
+              <button id="past_5" style="width:60px;height:40px;">Nao
+              </button>
+              <button id="past_6" style="width:60px;height:40px;">Ryn Weaver
+              </button>
+              <button id="past_7" style="width:60px;height:40px;">Sigrid
+              </button>
+            </div>
+          </div>
+          <div class = "dropdown">
+            <button class="dropbtn">Upcoming
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <button id="upcoming_0" style="width:60px;height:40px;">Abir
+              </button>
+              <button id="upcoming_1" style="width:100px;height:40px;">Charlotte OC
+              </button>
+              <button id="upcoming_2" style="width:100px;height:40px;">FLETCHER
+              </button>
+              <button id="upcoming_3" style="width:60px;height:40px;">King Princess
+              </button>
+              <button id="upcoming_4" style="width:60px;height:40px;">Maggie Rogers
+              </button>
+              <button id="upcoming_5" style="width:60px;height:40px;">Nao
+              </button>
+              <button id="upcoming_6" style="width:60px;height:40px;">Ryn Weaver
+              </button>
+              <button id="upcoming_7" style="width:60px;height:40px;">Sigrid
+              </button>
+            </div>
+          </div>
         </div>
         <div class='heading'>
           <h1>Shows</h1>

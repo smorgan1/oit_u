@@ -57,6 +57,7 @@ function newMap(showData) {
 
   function buildLocationList(data) {
     // Iterate through the list of stores
+    $("#listings").empty();
     for (i = 0; i < data.features.length; i++) {
       var currentFeature = data.features[i];
       // Shorten data.feature.properties to `prop` so we're not
@@ -153,13 +154,69 @@ function newMap(showData) {
 
 // newMap();
 
-$("#search-past").click(function() {
-  newMap(??)
+$("#past_0").click(function() {
+  newMap(Abir_Past)
+});
+$("#past_1").click(function() {
+  newMap(CharlotteOC_Past)
+});
+$("#past_2").click(function() {
+  newMap(FLETCHER_Past)
+});
+$("#past_3").click(function() {
+  newMap(KingPrincess_Past)
+});
+$("#past_4").click(function() {
+  newMap(MaggieRogers_Past)
+});
+$("#past_5").click(function() {
+  newMap(Nao_Past)
+});
+$("#past_6").click(function() {
+  newMap(RynWeaver_Past)
+});
+$("#past_7").click(function() {
+  newMap(Sigrid_Past)
+});
+$("#upcoming_0").click(function() {
+  newMap(Abir_Upcoming)
+});
+$("#upcoming_1").click(function() {
+  newMap(CharlotteOC_Upcoming)
+});
+$("#upcoming_2").click(function() {
+  newMap(FLETCHER_Upcoming)
+});
+$("#upcoming_3").click(function() {
+  newMap(KingPrincess_Upcoming)
+});
+$("#upcoming_4").click(function() {
+  newMap(MaggieRogers_Upcoming)
+});
+$("#upcoming_5").click(function() {
+  newMap(Nao_Upcoming)
+});
+$("#upcoming_6").click(function() {
+  newMap(RynWeaver_Upcoming)
+});
+$("#upcoming_7").click(function() {
+  newMap(Sigrid_Upcoming)
 });
 
-$("#search-upcoming").click(function() {
-  newMap(??)
-});
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
 
-
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 
