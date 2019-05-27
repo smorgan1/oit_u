@@ -1,5 +1,6 @@
-function newMap(showData) {
+function newMap(showData, artistName) {
     mapboxgl.accessToken = 'pk.eyJ1IjoibWVyZWRpdGhtYXJrcyIsImEiOiJjanV2dTF2ODYwNHExNDNzZDNicnBqY2QyIn0.H3Yqa2EDbrCQ18wJnoevsg'
+  $("#listings").empty();
   // This adds the map to your page
   var map = new mapboxgl.Map({
     // container id specified in the HTML
@@ -122,7 +123,7 @@ function newMap(showData) {
     // Create an img element for the marker
     var el = document.createElement('div');
     el.id = "marker-" + i;
-    el.className = 'marker';
+    el.className = `marker ${artistName}`;
     // Add markers to the map at all points
 
   // TESTING: console.log(marker.geometry.coordinates)
@@ -152,55 +153,55 @@ function newMap(showData) {
   });
 }
 
-// newMap();
+// newMap(data, artistName);
 
 $("#past_0").click(function() {
-  newMap(Abir_Past)
+  newMap(Abir_Past, 'Abir')
 });
 $("#past_1").click(function() {
-  newMap(CharlotteOC_Past)
+  newMap(CharlotteOC_Past, 'CharlotteOC')
 });
 $("#past_2").click(function() {
-  newMap(FLETCHER_Past)
+  newMap(FLETCHER_Past, 'FLETCHER')
 });
 $("#past_3").click(function() {
-  newMap(KingPrincess_Past)
+  newMap(KingPrincess_Past, 'KingPrincess')
 });
 $("#past_4").click(function() {
-  newMap(MaggieRogers_Past)
+  newMap(MaggieRogers_Past, 'MaggieRogers')
 });
 $("#past_5").click(function() {
-  newMap(Nao_Past)
+  newMap(Nao_Past, 'Nao')
 });
 $("#past_6").click(function() {
-  newMap(RynWeaver_Past)
+  newMap(RynWeaver_Past, 'RynWeaver')
 });
 $("#past_7").click(function() {
-  newMap(Sigrid_Past)
+  newMap(Sigrid_Past, 'Sigrid')
 });
 $("#upcoming_0").click(function() {
-  newMap(Abir_Upcoming)
+  newMap(Abir_Upcoming, 'Abir')
 });
 $("#upcoming_1").click(function() {
-  newMap(CharlotteOC_Upcoming)
+  newMap(CharlotteOC_Upcoming, 'CharlotteOC')
 });
 $("#upcoming_2").click(function() {
-  newMap(FLETCHER_Upcoming)
+  newMap(FLETCHER_Upcoming, 'FLETCHER')
 });
 $("#upcoming_3").click(function() {
-  newMap(KingPrincess_Upcoming)
+  newMap(KingPrincess_Upcoming, 'KingPrincess')
 });
 $("#upcoming_4").click(function() {
-  newMap(MaggieRogers_Upcoming)
+  newMap(MaggieRogers_Upcoming, 'MaggieRogers')
 });
 $("#upcoming_5").click(function() {
-  newMap(Nao_Upcoming)
+  newMap(Nao_Upcoming, 'Nao')
 });
 $("#upcoming_6").click(function() {
-  newMap(RynWeaver_Upcoming)
+  newMap(RynWeaver_Upcoming, 'RynWeaver')
 });
 $("#upcoming_7").click(function() {
-  newMap(Sigrid_Upcoming)
+  newMap(Sigrid_Upcoming, 'Sigrid')
 });
 
 function myFunction() {

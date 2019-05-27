@@ -66,8 +66,33 @@ a:hover {
   width: 56px;
   background-size: contain;
   border-radius: 50%;
-  background-image: url(MRodgers.png);
+  background-image: url(MaggieRogers.png);
   background-color: rgba(0, 0, 0, 0);
+}
+
+.marker.Abir {
+  background-image: url(Abir.jpg);
+}
+.marker.CharlotteOC {
+  background-image: url(CharlotteOC.jpg);
+}
+.marker.FLETCHER {
+  background-image: url(FLETCHER.jpg);
+}
+.marker.KingPrincess {
+  background-image: url(KingPrincess.jpg);
+}
+.marker.MaggieRogers {
+  background-image: url(MaggieRogers.png);
+}
+.marker.Nao {
+  background-image: url(Nao.jpg);
+}
+.marker.RynWeaver {
+  background-image: url(RynWeaver.jpg);
+}
+.marker.Sigrid {
+  background-image: url(Sigrid.jpg);
 }
 
 .listings {
