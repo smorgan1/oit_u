@@ -1,4 +1,4 @@
-const sigridUpcoming = {
+const Sigrid_Upcoming = {
     "resultsPage":
     {
         "status": "ok",

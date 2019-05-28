@@ -1,4 +1,4 @@
-const kingPrincessUpcoming = {
+const KingPrincess_Upcoming = {
     "resultsPage":
     {
         "status": "ok",

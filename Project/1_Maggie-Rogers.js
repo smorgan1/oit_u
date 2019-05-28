@@ -1,4 +1,4 @@
-const maggieRogersUpcoming = {
+const MaggieRogers_Upcoming = {
     "resultsPage":
     {
         "status": "ok",

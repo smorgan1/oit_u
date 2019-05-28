@@ -1,154 +1,223 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoibWVyZWRpdGhtYXJrcyIsImEiOiJjanV2dTF2ODYwNHExNDNzZDNicnBqY2QyIn0.H3Yqa2EDbrCQ18wJnoevsg'
-// This adds the map to your page
-var map = new mapboxgl.Map({
-  // container id specified in the HTML
-  container: 'map',
-  // style URL
-  style: 'mapbox://styles/mapbox/light-v10',
-  // initial position in [lon, lat] format
-  center: [-77.034084, 38.909671],
-  // initial zoom
-  zoom: 3
+function newMap(showData, artistName) {
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWVyZWRpdGhtYXJrcyIsImEiOiJjanV2dTF2ODYwNHExNDNzZDNicnBqY2QyIn0.H3Yqa2EDbrCQ18wJnoevsg'
+  $("#listings").empty();
+  // This adds the map to your page
+  var map = new mapboxgl.Map({
+    // container id specified in the HTML
+    container: 'map',
+    // style URL
+    style: 'mapbox://styles/mapbox/light-v10',
+    // initial position in [lon, lat] format
+    center: [-77.034084, 38.909671],
+    // initial zoom
+    zoom: 3
+  });
+
+  const eventsOutput0 = showData.resultsPage.results.event.map(event => {
+    var output = {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [event.location.lng, event.location.lat],
+      },
+      properties: {
+        title: event.displayName,
+        date: event.start.date,
+        city: event.location.city,
+      },
+    };
+
+    return output
+  })
+
+  const keyFeatures = {
+    "type": "FeatureCollection",
+    "features": eventsOutput0
+  }
+
+  console.log(eventsOutput0)
+
+  function flyToStore(currentFeature) {
+    map.flyTo({
+      center: currentFeature.geometry.coordinates,
+      zoom: 15
+    });
+  }
+
+  function createPopUp(currentFeature) {
+    var popUps = document.getElementsByClassName('mapboxgl-popup');
+    // Check if there is already a popup on the map and if so, remove it
+    if (popUps[0]) popUps[0].remove();
+
+    var popup = new mapboxgl.Popup({ closeOnClick: false })
+      .setLngLat(currentFeature.geometry.coordinates)
+      .setHTML('<h3>' + currentFeature.properties.title + '</h3>' +
+        '<h4>' + currentFeature.properties.date + '</h4>')
+      .addTo(map);
+  }
+
+  function buildLocationList(data) {
+    // Iterate through the list of stores
+    $("#listings").empty();
+    for (i = 0; i < data.features.length; i++) {
+      var currentFeature = data.features[i];
+      // Shorten data.feature.properties to `prop` so we're not
+      // writing this long form over and over again.
+      var prop = currentFeature.properties;
+      // Select the listing container in the HTML and append a div
+      // with the class 'item' for each store
+      var listings = document.getElementById('listings');
+      var listing = listings.appendChild(document.createElement('div'));
+      listing.className = 'item';
+      listing.id = 'listing-' + i;
+
+      // Create a new link with the class 'title' for each store
+      // and fill it with the store address
+      var link = listing.appendChild(document.createElement('a'));
+      link.href = '#';
+      link.className = 'title';
+      link.dataPosition = i;
+      link.innerHTML = prop.title;
+      // Add an event listener for the links in the sidebar listing
+    link.addEventListener('click', function(e) {
+      // Update the currentFeature to the store associated with the clicked link
+      var clickedListing = data.features[this.dataPosition];
+      // 1. Fly to the point associated with the clicked link
+      flyToStore(clickedListing);
+      // 2. Close all other popups and display popup for clicked store
+      createPopUp(clickedListing);
+      // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+      var activeItem = document.getElementsByClassName('active');
+      if (activeItem[0]) {
+        activeItem[0].classList.remove('active');
+      }
+      this.parentNode.classList.add('active');
+    });
+
+      // Create a new div with the class 'details' for each store
+      // and fill it with the city and phone number
+      var details = listing.appendChild(document.createElement('div'));
+      details.innerHTML = prop.city;
+      if (prop.phone) {
+        details.innerHTML += ' -- ' + prop.phoneFormatted;
+      }
+    }
+  }
+
+  map.on('load', function (e) {
+    // This is where your '.addLayer()' used to be, instead add only the source without styling a layer
+    map.addSource("places", {
+      "type": "geojson",
+      "data": keyFeatures
+    });
+    // Initialize the list
+    buildLocationList(keyFeatures);
+  });
+
+  // This is where your interactions with the symbol layer used to be
+  // Now you have interactions with DOM markers instead
+
+
+
+  eventsOutput0.forEach(function(marker, i) {
+    // Create an img element for the marker
+    var el = document.createElement('div');
+    el.id = "marker-" + i;
+    el.className = `marker ${artistName}`;
+    // Add markers to the map at all points
+
+  // TESTING: console.log(marker.geometry.coordinates)
+
+    new mapboxgl.Marker(el, {offset: [0, -23]})
+      .setLngLat(marker.geometry.coordinates)
+      .addTo(map);
+
+    el.addEventListener('click', function(e){
+      // 1. Fly to the point
+      flyToStore(marker);
+
+      // 2. Close all other popups and display popup for clicked store
+      createPopUp(marker);
+
+      // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+      var activeItem = document.getElementsByClassName('active');
+
+      e.stopPropagation();
+      if (activeItem[0]) {
+         activeItem[0].classList.remove('active');
+      }
+
+      var listing = document.getElementById('listing-' + i);
+      listing.classList.add('active');
+    });
+  });
+}
+
+// newMap(data, artistName);
+
+$("#past_0").click(function() {
+  newMap(Abir_Past, 'Abir')
+});
+$("#past_1").click(function() {
+  newMap(CharlotteOC_Past, 'CharlotteOC')
+});
+$("#past_2").click(function() {
+  newMap(FLETCHER_Past, 'FLETCHER')
+});
+$("#past_3").click(function() {
+  newMap(KingPrincess_Past, 'KingPrincess')
+});
+$("#past_4").click(function() {
+  newMap(MaggieRogers_Past, 'MaggieRogers')
+});
+$("#past_5").click(function() {
+  newMap(Nao_Past, 'Nao')
+});
+$("#past_6").click(function() {
+  newMap(RynWeaver_Past, 'RynWeaver')
+});
+$("#past_7").click(function() {
+  newMap(Sigrid_Past, 'Sigrid')
+});
+$("#upcoming_0").click(function() {
+  newMap(Abir_Upcoming, 'Abir')
+});
+$("#upcoming_1").click(function() {
+  newMap(CharlotteOC_Upcoming, 'CharlotteOC')
+});
+$("#upcoming_2").click(function() {
+  newMap(FLETCHER_Upcoming, 'FLETCHER')
+});
+$("#upcoming_3").click(function() {
+  newMap(KingPrincess_Upcoming, 'KingPrincess')
+});
+$("#upcoming_4").click(function() {
+  newMap(MaggieRogers_Upcoming, 'MaggieRogers')
+});
+$("#upcoming_5").click(function() {
+  newMap(Nao_Upcoming, 'Nao')
+});
+$("#upcoming_6").click(function() {
+  newMap(RynWeaver_Upcoming, 'RynWeaver')
+});
+$("#upcoming_7").click(function() {
+  newMap(Sigrid_Upcoming, 'Sigrid')
 });
 
-const eventsOutput0 = data.resultsPage.results.event.map(event => {
-  var output = {
-    type: "Feature",
-    geometry: {
-      type: "Point",
-      coordinates: [event.location.lng, event.location.lat],
-    },
-    properties: {
-      // headliner: event.performance.billing,
-      // artists: event.performance.artist.displayName,
-      title: event.displayName,
-      date: event.start.date,
-      city: event.location.city,
-    },
-  };
-
-  return output
-})
-
-const keyFeatures = {
-  "type": "FeatureCollection",
-  "features": eventsOutput0
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
 }
 
-console.log(eventsOutput0)
-
-function flyToStore(currentFeature) {
-  map.flyTo({
-    center: currentFeature.geometry.coordinates,
-    zoom: 15
-  });
-}
-
-function createPopUp(currentFeature) {
-  var popUps = document.getElementsByClassName('mapboxgl-popup');
-  // Check if there is already a popup on the map and if so, remove it
-  if (popUps[0]) popUps[0].remove();
-
-  var popup = new mapboxgl.Popup({ closeOnClick: false })
-    .setLngLat(currentFeature.geometry.coordinates)
-    .setHTML('<h3>' + currentFeature.properties.title + '</h3>' +
-      '<h4>' + currentFeature.properties.date + '</h4>')
-    .addTo(map);
-}
-
-function buildLocationList(data) {
-  // Iterate through the list of stores
-  for (i = 0; i < data.features.length; i++) {
-    var currentFeature = data.features[i];
-    // Shorten data.feature.properties to `prop` so we're not
-    // writing this long form over and over again.
-    var prop = currentFeature.properties;
-    // Select the listing container in the HTML and append a div
-    // with the class 'item' for each store
-    var listings = document.getElementById('listings');
-    var listing = listings.appendChild(document.createElement('div'));
-    listing.className = 'item';
-    listing.id = 'listing-' + i;
-
-    // Create a new link with the class 'title' for each store
-    // and fill it with the store address
-    var link = listing.appendChild(document.createElement('a'));
-    link.href = '#';
-    link.className = 'title';
-    link.dataPosition = i;
-    link.innerHTML = prop.title;
-    // Add an event listener for the links in the sidebar listing
-  link.addEventListener('click', function(e) {
-    // Update the currentFeature to the store associated with the clicked link
-    var clickedListing = data.features[this.dataPosition];
-    // 1. Fly to the point associated with the clicked link
-    flyToStore(clickedListing);
-    // 2. Close all other popups and display popup for clicked store
-    createPopUp(clickedListing);
-    // 3. Highlight listing in sidebar (and remove highlight for all other listings)
-    var activeItem = document.getElementsByClassName('active');
-    if (activeItem[0]) {
-      activeItem[0].classList.remove('active');
-    }
-    this.parentNode.classList.add('active');
-  });
-
-    // Create a new div with the class 'details' for each store
-    // and fill it with the city and phone number
-    var details = listing.appendChild(document.createElement('div'));
-    details.innerHTML = prop.city;
-    if (prop.phone) {
-      details.innerHTML += ' -- ' + prop.phoneFormatted;
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
     }
   }
 }
 
-map.on('load', function (e) {
-  // This is where your '.addLayer()' used to be, instead add only the source without styling a layer
-  map.addSource("places", {
-    "type": "geojson",
-    "data": keyFeatures
-  });
-  // Initialize the list
-  buildLocationList(keyFeatures);
-});
-
-// This is where your interactions with the symbol layer used to be
-// Now you have interactions with DOM markers instead
-
-
-
-
-
-eventsOutput0.forEach(function(marker, i) {
-  // Create an img element for the marker
-  var el = document.createElement('div');
-  el.id = "marker-" + i;
-  el.className = 'marker';
-  // Add markers to the map at all points
-
-// TESTING: console.log(marker.geometry.coordinates)
-
-  new mapboxgl.Marker(el, {offset: [0, -23]})
-    .setLngLat(marker.geometry.coordinates)
-    .addTo(map);
-
-  el.addEventListener('click', function(e){
-    // 1. Fly to the point
-    flyToStore(marker);
-
-    // 2. Close all other popups and display popup for clicked store
-    createPopUp(marker);
-
-    // 3. Highlight listing in sidebar (and remove highlight for all other listings)
-    var activeItem = document.getElementsByClassName('active');
-
-    e.stopPropagation();
-    if (activeItem[0]) {
-       activeItem[0].classList.remove('active');
-    }
-
-    var listing = document.getElementById('listing-' + i);
-    listing.classList.add('active');
-  });
-});
